@@ -1,16 +1,23 @@
-class PersonalRecipesController < ApiBaseController 
+module Api
+	module V1
+		class PersonalRecipesController < ApiBaseController 
 	
-	def create
-		builder = ::Builders::PersonalRecipe.run(current_user)
-		if builder.record.persisted? || builder.record.save
-			render(json: builder.record.to_json)
-		else
-			render(json: builder.record.errors.to_json, status: :bad_request)
+			def create
+				builder = ::Builders::PersonalRecipe.run(current_user)
+				if builder.record.persisted? || builder.record.tap(&:save)
+					render(json: builder.record)
+				else
+					render(json: builder.record.errors.to_json, status: :bad_request)
+				end
+			end
+
+			def index
+				page = params[:page] || 0
+				per_page = params[:per_page] || DEFAULT_PER_PAGE
+				recipes = current_user.personal_recipes.page(page).per(per_page)
+				render(json: recipes, each_serializer: PersonalRecipeSerializer)
+			end
 
 		end
 	end
-
-	def index
-	end
-
 end
