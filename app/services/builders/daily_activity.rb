@@ -3,7 +3,7 @@ module Builders
 
 		class MissingUser < StandardError; end
 		class InvalidNutrient < StandardError; end
-		class InvalidNutrientConsumptionValue < StandardError; end
+		class InvalidConsumptionValue < StandardError; end
 
 		def self.run(user, options = {})
 			new(user, options).run
@@ -32,12 +32,13 @@ module Builders
 
 		def initialize(user, options)
 			@user = user
-			@options = options
+			@options = options.to_h.symbolize_keys
 		end
 
 		def run
 			validate_parameters
 			@record = @user.daily_activities.build(nutrients_consumption)
+			self
 		end
 
 		private
@@ -45,8 +46,8 @@ module Builders
 		def validate_parameters
 			raise MissingUser, MISSING_USER_MSG if @user.nil?
 			raise InvalidNutrient, INVALID_NUTRIENT_MSG if invalid_nutrients_list?
-			raise InvalidNutrientConsumptionValue, 
-				INVALID_CONSUMPTION_MSG if invalid_nutrient_consumption_value?
+			raise InvalidConsumptionValue, 
+				INVALID_CONSUMPTION_MSG if invalid_consumption_value?
 		end
 
 		# Verifying that the options hash only contains the 
@@ -58,9 +59,9 @@ module Builders
 
 		# Checking if all the values are within the authorized
 		# range
-		def invalid_nutrient_consumption_value?
-			nutrients_consumption.values.all? do |v| 
-				v.in?(AUTHORIZED_CONSUMPTION_VALUES)
+		def invalid_consumption_value?
+			nutrients_consumption.values.any? do |v| 
+				!v.in?(AUTHORIZED_CONSUMPTION_VALUES)
 			end
 		end
 
@@ -68,7 +69,7 @@ module Builders
 		def nutrients_consumption
 			@_nutrients_consumption ||=
 				@options.slice(*AUTHORIZED_NUTRIENTS).
-				compact.transform_values { |v| v.abs }
+				compact.transform_values { |v| v.to_i.abs }
 		end
 	end
 end

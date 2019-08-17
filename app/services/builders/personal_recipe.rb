@@ -29,11 +29,13 @@ module Builders
 			else
 				@user.personal_recipes.build(recipe_attributes)
 			end
+			self
 		end
 
 		private
 
 		def same_as_last_recipe?
+			return false unless @last_generated_recipe
 			@last_generated_recipe.pluck(
 				*NUTRIENTS_TO_CALCULATE.map {|n| "#{n}_dosage"}
 			) == recipe_attributes
@@ -60,8 +62,9 @@ module Builders
 		end
 
 		def current_level(nutrient)
-			@meals.pluck(nutrient).inject(:+) - 
-				@activities.pluck("#{nutrient}_consumption").inject(:+)
+			@meals.pluck(nutrient).compact.inject(:+).to_i - 
+				@activities.pluck("#{nutrient}_consumption").
+				compact.inject(:+).to_i
 		end
 
 	end
