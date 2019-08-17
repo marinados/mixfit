@@ -1,11 +1,11 @@
 # GIVEN
 ## Product specs
-As a postman user I can submit my height and weight in the database
-As a postman user I can enter my food intake for a specific day, represented by an amount (4 to 10) of Vitamin C, Vitamin D3 and Iron in the database
-As a postman user I can enter my activity level, represented by a negative amount (1 to 3) of Vitamin C, Vitamin D3 and Iron in the database
-As a postman user I can make a request so that I can get a personalized recipe based on the above values (check formula below)
-As another postman user I make the same request and have another result based on my personal values
-As a postman user I can see my personal recipes that have been generated, day by day
+- As a postman user I can submit my height and weight in the database (x)
+- As a postman user I can enter my food intake for a specific day, represented by an amount (4 to 10) of Vitamin C, Vitamin D3 and Iron in the database (x)
+- As a postman user I can enter my activity level, represented by a negative amount (1 to 3) of Vitamin C, Vitamin D3 and Iron in the database (x)
+- As a postman user I can make a request so that I can get a personalized recipe based on the above values (check formula below)
+- As another postman user I make the same request and have another result based on my personal values
+- As a postman user I can see my personal recipes that have been generated, day by day
 
 ## Assumptions:
 - At the beginning of the day, all 3 values are 0.
@@ -34,7 +34,10 @@ Iron 7 (current level is 4-1 = 3)
 ## Assumptions
 - a valid call to the daily activity or food intake endpoints does not have to contain all of the nutrients' params, it can only have one value (e.g. only iron or vitamin c).
 - we don't limit the number of activities or food intakes per day, currently users can record as many as they wish.
-- if the user's nutrients' levels are already above the threshold, we recommend a 0 intake in the recipe.
+- we don't restrict the number of personal recipes that can be requested either, currently users can generate a new one at any moment.
+- they can, however, not see their today's recipe if they have no values corresponding to today's meals or activities.
+- a new recipe is not generated if the last values are identical to the new one.
+- if the user's nutrients' levels are already above the threshold, we recommend a 0 intake in the recipe and even with negative current values we don't exceed the 10 unit dosage.
 
 
 ## Code structure
@@ -55,5 +58,7 @@ I have made a choice to store every recipe in the database although technically 
 Depending on the actual use case (e.g. an email or a PDF-creation with user related details), another option would be, instead of keeping recipes in the database, to put their generation into a background job. 
 For an API it didn't make much sense, though, especially given that we cannot be sure to have the complete set of everyday data, since we rely on the API users to introduce it.
 
+### Metaprogramming
+I've kept the use of meta-programming to a minimum for readability purposes, but given the developer team has often got the specific naming conventions I was considering some meta for the recipe calculation, this could be easily added if the team accepts to use it this way.
 
 

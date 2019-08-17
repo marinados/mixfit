@@ -30,6 +30,8 @@ ActiveRecord::Schema.define(version: 2019_08_12_180237) do
     t.integer "vitamin_c"
     t.integer "vitamin_d3"
     t.integer "iron"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_food_intakes_on_user_id"
   end
 

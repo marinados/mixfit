@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 			resources :users, only: %i(update)
 			resource :food_intakes, only: %i(create)
 			resource :daily_activities, only: %i(create)
-			get 'personal_recipes/today', to: 'personal_recipes#show'
+			get 'personal_recipes/today', to: 'personal_recipes#create'
 			resources :personal_recipes, only: %i(index)
 		end
 	end

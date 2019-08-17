@@ -1,7 +1,7 @@
 class DailyActivitiesController < ApiBaseController
 
 	def create
-		builder = Builders::DailyActivity.run(user: current_user, activity_params)
+		builder = Builders::DailyActivity.run(current_user, activity_params)
 	rescue Builders::DailyActivity::InvalidNutrientConsumptionValue, Builders::DailyActivity::InvalidNutrient => e
 		render(status: :bad_request, error: e.message)
 	end

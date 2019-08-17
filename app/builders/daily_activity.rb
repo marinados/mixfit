@@ -5,7 +5,7 @@ module Builders
 		class InvalidNutrient < StandardError; end
 		class InvalidNutrientConsumptionValue < StandardError; end
 
-		def self.run(user:, options = {})
+		def self.run(user, options = {})
 			new(user, options).run
 		end
 

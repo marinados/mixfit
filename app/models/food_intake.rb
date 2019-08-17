@@ -1,4 +1,5 @@
 class FoodIntake < ApplicationRecord
+	
 	belongs_to :user
 
 	VALID_DOSAGE_RANGE = (4..10).freeze
@@ -7,12 +8,14 @@ class FoodIntake < ApplicationRecord
 
 	private_constant :VALID_DOSAGE_RANGE
 
-	private_constant :COLUMNS_TO_VALIDATE
-
-
 	COLUMNS_TO_VALIDATE.each do |attr|
 		validates attr, 
-							presence: true,
+							allow_nil: true,
 							inclusion: { in: VALID_DOSAGE_RANGE }
 	end
+
+	scope(:today, lambda do
+			where(created_at: 
+				Date.today.beginning_of_day..Date.today.end_of_day) 
+		end)
 end
