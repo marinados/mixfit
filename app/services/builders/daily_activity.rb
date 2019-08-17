@@ -61,7 +61,7 @@ module Builders
 		# range
 		def invalid_consumption_value?
 			nutrients_consumption.values.any? do |v| 
-				!v.in?(AUTHORIZED_CONSUMPTION_VALUES)
+				!(-v).in?(AUTHORIZED_CONSUMPTION_VALUES)
 			end
 		end
 

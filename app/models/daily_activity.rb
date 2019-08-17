@@ -3,6 +3,6 @@ class DailyActivity < ApplicationRecord
 
 	scope(:today, lambda do
 		where(created_at: 
-			Date.today.beginning_of_day..Date.today.end_of_day) 
+			Date.current.beginning_of_day..Date.current.end_of_day) 
 	end)
 end

@@ -36,7 +36,7 @@ module Builders
 
 		def same_as_last_recipe?
 			return false unless @last_generated_recipe
-			@last_generated_recipe.pluck(
+			@last_generated_recipe.slice(
 				*NUTRIENTS_TO_CALCULATE.map {|n| "#{n}_dosage"}
 			) == recipe_attributes
 		end
