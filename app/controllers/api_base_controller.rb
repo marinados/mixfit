@@ -16,6 +16,9 @@ class ApiBaseController < ApplicationController
 		raise UnknownUserError
 	end
 
+	# Since this is the closest to authentication that we have
+	# I prefer to render the 401 status instead of bad request,
+	# for further consistency.
 	def render_unauthorized
 		render(status: :unauthorized)
 	end
