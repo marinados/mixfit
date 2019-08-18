@@ -1,3 +1,5 @@
-class UserSerializer < ActiveModel::Serializer
-  attributes :name, :weight, :height
+class UserSerializer < ApplicationSerializer
+  attributes :name, 
+  	:weight, 
+  	:height
 end

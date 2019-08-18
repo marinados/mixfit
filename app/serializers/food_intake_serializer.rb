@@ -1,5 +1,8 @@
-class FoodIntakeSerializer < ActiveModel::Serializer
-  attributes :vitamin_c, :vitamin_d3, :iron, :created_at
+class FoodIntakeSerializer < ApplicationSerializer
+  attributes :vitamin_c, 
+  	:vitamin_d3, 
+  	:iron, 
+  	:created_at
 
   belongs_to :user do |serializer|
 	  serializer.username

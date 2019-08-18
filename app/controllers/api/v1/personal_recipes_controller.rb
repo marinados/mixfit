@@ -5,7 +5,7 @@ module Api
 			def create
 				builder = ::Builders::PersonalRecipe.run(current_user)
 				if builder.record.persisted? || builder.record.tap(&:save)
-					render(json: builder.record)
+					render(json: builder.record, serializer: PersonalRecipeSerializer)
 				else
 					render(json: builder.record.errors.to_json, status: :bad_request)
 				end

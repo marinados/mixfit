@@ -5,7 +5,7 @@ module Api
 			def update
 				current_user.attributes = user_params
 				if current_user.save
-					render(json: current_user.to_json)
+					render(json: current_user, serializer: UserSerializer)
 				else
 					render(json: current_user.errors.to_json, status: :bad_request)
 				end
