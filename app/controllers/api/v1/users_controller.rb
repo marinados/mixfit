@@ -7,7 +7,7 @@ module Api
 				if current_user.save
 					render(json: current_user, serializer: UserSerializer)
 				else
-					render(json: current_user.errors.to_json, status: :bad_request)
+					render(json: { error: current_user.errors.to_json}, status: :bad_request)
 				end
 			end
 

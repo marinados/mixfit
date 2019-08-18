@@ -5,9 +5,9 @@ module Api
 			def create
 				meal = current_user.food_intakes.build(food_intake_params) 
 				if meal.save
-					render(json: meal, serializer: FoodIntakeSerializer)
+					render(json: meal, serializer: FoodIntakeSerializer, status: :created)
 				else
-					render(json: meal.errors.to_json, status: :bad_request)
+					render(json: { error: meal.errors.to_json }, status: :bad_request)
 				end
 			end
 
